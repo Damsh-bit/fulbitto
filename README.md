@@ -1,143 +1,53 @@
-# ? FutCard Bot — Bot de cartas de fútbol para Discord
+# ? FutCard Bot â€” Bot de cartas de fÃºtbol para Discord
 
-Bot tipo **Mudae** pero de fútbol. Rueda cartas de tus jugadores favoritos, colecciónalos, intercámbialos con amigos y compite en el ranking del servidor.
+Bot tipo **Mudae** pero de fÃºtbol. Rueda cartas de tus jugadores favoritos, colecciÃ³nalos, intercÃ¡mbialos con amigos y compite en el ranking del servidor.
 
 ---
 
-## ?? Descripción general
+## ?? DescripciÃ³n general
 
 FutCard Bot es un bot de Discord que permite:
-- rolear cartas de jugadores de fútbol
+- rolear cartas de jugadores de fÃºtbol
 - reclamar cartas con reacciones
 - guardar colecciones y wishlist
 - regalar cartas e intercambiar con otros usuarios
-- ver rankings y estadísticas del servidor
-
-El bot está modularizado usando `cogs` para separar comandos, colección, social y administración.
-
----
-
-## ?? Requisitos
-
-- Python 3.10 o superior
-- Una cuenta de desarrollador de Discord
-- Token de bot de Discord
-
----
-
-## ?? Configuración del bot en Discord
-
-1. Ve a https://discord.com/developers/applications
-2. Haz clic en **New Application** y ponle un nombre
-3. Ve a **Bot** ? **Add Bot**
-4. En **Privileged Gateway Intents** activa:
-   - `MESSAGE CONTENT INTENT`
-   - `SERVER MEMBERS INTENT`
-5. Copia el **Token** del bot
-6. Ve a **OAuth2 ? URL Generator**:
-   - Scopes: `bot`
-   - Bot Permissions: `Send Messages`, `Read Messages/View Channels`, `Add Reactions`, `Embed Links`, `Read Message History`
-7. Abre la URL generada e invita el bot a tu servidor
-
----
-
-## ??? Configurar el proyecto
-
-```bash
-# Clonar / descargar el proyecto
-cd futbol-bot
-
-# Instalar dependencias
-pip install -r requirements.txt
-```
-
-### Crear el archivo de configuración local
-
-En Windows PowerShell:
-
-```powershell
-Copy-Item .env.example .env
-```
-
-En Linux/macOS o WSL:
-
-```bash
-cp .env.example .env
-```
-
-Luego edita `.env` y reemplaza:
-
-```env
-DISCORD_TOKEN=tu_token_aqui
-```
-
----
-
-## ?? Ejecutar el bot
-
-```bash
-python bot.py
-```
-
----
-
-## ?? Estructura del proyecto
-
-```
-futbol-bot/
-+-- bot.py              # Entrada principal
-+-- database.py         # Operaciones con SQLite
-+-- requirements.txt
-+-- .env                # Tu token (NO subir a git)
-+-- .env.example
-+-- data/
-¦   +-- __init__.py
-¦   +-- players.py      # Base de datos de jugadores y sistema gacha
-+-- cogs/
-    +-- __init__.py
-    +-- cards.py        # Comandos de roll y cartas
-    +-- collection.py   # Colección, wishlist, perfil
-    +-- social.py       # Regalar, intercambio, ranking, duelo
-    +-- admin.py        # Comandos admin y ayuda
-```
-
----
+- ver rankings y estadÃ­sticas del servidor
 
 ## ?? Comandos principales
 
 ### ? Ruleta
-| Comando | Descripción |
+| Comando | DescripciÃ³n |
 |---------|-------------|
 | `$roll` / `$r` | Tira una carta aleatoria (cooldown 1 hora) |
 | `$carta <nombre>` | Ver detalles de un jugador |
 | `$lista [raridad]` | Lista los jugadores disponibles |
 | `$raridades` | Muestra probabilidades por raridad |
 
-### ?? Colección
-| Comando | Descripción |
+### ?? ColecciÃ³n
+| Comando | DescripciÃ³n |
 |---------|-------------|
-| `$coleccion [@usuario]` | Ver tu colección |
-| `$perfil [@usuario]` | Ver estadísticas de perfil |
-| `$desear <jugador>` | Añadir jugador a wishlist |
+| `$coleccion [@usuario]` | Ver tu colecciÃ³n |
+| `$perfil [@usuario]` | Ver estadÃ­sticas de perfil |
+| `$desear <jugador>` | AÃ±adir jugador a wishlist |
 | `$wishlist [@usuario]` | Ver wishlist |
 | `$deseareliminar <jugador>` | Quitar jugador de wishlist |
 
 ### ?? Social
-| Comando | Descripción |
+| Comando | DescripciÃ³n |
 |---------|-------------|
 | `$regalar @usuario <jugador>` | Regalar carta |
 | `$intercambio @usuario <tuya> <suya>` | Proponer intercambio |
 | `$duelo <jugador1> vs <jugador2>` | Comparar dos jugadores |
 | `$top` | Ranking de coleccionistas |
-| `$toppersonajes` | Jugadores más rolados |
+| `$toppersonajes` | Jugadores mÃ¡s rolados |
 
 ### ??? Admin (solo administradores)
-| Comando | Descripción |
+| Comando | DescripciÃ³n |
 |---------|-------------|
 | `$darCarta @usuario <jugador>` | Dar carta manualmente |
 | `$quitarCarta @usuario <jugador>` | Quitar una carta |
 | `$resetCooldown [@usuario]` | Resetear cooldown |
-| `$estadisticas` | Ver estadísticas del servidor |
+| `$estadisticas` | Ver estadÃ­sticas del servidor |
 
 ---
 
@@ -145,53 +55,11 @@ futbol-bot/
 
 | Raridad | Emoji | Probabilidad | Jugadores ejemplo |
 |---------|-------|-------------|-------------------|
-| ?? Legendario | ????? | 2% | Messi, Ronaldo, Mbappé, Haaland |
-| ?? Diamante | ???? | 6% | Vinícius, Bellingham, Salah, De Bruyne |
+| ?? Legendario | ????? | 2% | Messi, Ronaldo, MbappÃ©, Haaland |
+| ?? Diamante | ???? | 6% | VinÃ­cius, Bellingham, Salah, De Bruyne |
 | ?? Oro | ??? | 12% | Lewandowski, Rodri, Pedri, Kane |
 | ? Plata | ?? | 25% | Griezmann, Son, Valverde, Diaz |
 | ?? Bronce | ? | 55% | Rashford, Musiala, Wirtz, Gabriel |
 
 ---
-
-## ? Agregar más jugadores
-
-Edita `data/players.py` y añade una entrada en el diccionario `PLAYERS`:
-
-```python
-"tu_jugador": Player(
-    id="tu_jugador",
-    name="Nombre Completo",
-    club="Nombre del Club",
-    nation="País",
-    position="DEL",       # DEL, EXT, MC, MCD, LAT, DEF, POR
-    rarity="oro",         # bronce, plata, oro, diamante, legendario
-    overall=85,
-    flag="????",
-    image_url="https://url-de-imagen.com/jugador.png",
-    pace=80, shooting=85, passing=75, dribbling=82, defending=40, physical=75
-),
-```
-
----
-
-## ?? Seguridad
-
-- El archivo `.env` NO debe subirse a GitHub.
-- `.env.example` es seguro y contiene solo el formato necesario.
-- `.gitignore` ya excluye:
-  - `.env`
-  - `futbol_cards.db`
-  - `__pycache__/`
-  - `*.pyc`
-
----
-
-## ?? Comprobaciones realizadas
-
-- El bot usa `DISCORD_TOKEN` desde `.env`.
-- La carpeta `cogs/` contiene los módulos del bot.
-- La carpeta `data/` contiene los jugadores y el sistema gacha.
-
----
-
 Hecho con ?? y ?
