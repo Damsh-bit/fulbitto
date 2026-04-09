@@ -29,14 +29,10 @@ class Cards(commands.Cog, name="⚽ Cartas"):
         player = roll_player()
         rarity  = RARITIES[player.rarity]
 
-        # Animación de suspenso
-        loading_msg = await ctx.send("⚽ **Tirando la ruleta...**")
-        await asyncio.sleep(1.2)
-
         embed = self._build_card_embed(player, ctx.author)
         embed.set_footer(text=f"¡{ctx.author.display_name} consiguió esta carta! Reacciona ⚽ para reclamarla.")
 
-        await loading_msg.edit(content=None, embed=embed)
+        loading_msg = await ctx.send(embed=embed)
         await loading_msg.add_reaction("⚽")
 
         # Guardar drop pendiente
