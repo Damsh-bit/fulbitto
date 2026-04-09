@@ -4,6 +4,7 @@ import time
 import asyncio
 import database as db
 from data.players import roll_player, get_player, RARITIES, PLAYERS, search_players
+from .card_generator import generate_fifa_card
 
 # Cooldown de roll: 20 roleos por hora
 ROLL_COOLDOWN = 3600  # 1 hora
@@ -27,12 +28,21 @@ class Cards(commands.Cog, name="⚽ Cartas"):
         await db.ensure_user(ctx.author.id, ctx.guild.id)
 
         player = roll_player()
-        rarity  = RARITIES[player.rarity]
-
-        embed = self._build_card_embed(player, ctx.author)
-        embed.set_footer(text=f"¡{ctx.author.display_name} consiguió esta carta! Reacciona ⚽ para reclamarla.")
-
-        loading_msg = await ctx.send(embed=embed)
+        
+        # Generar imagen estilo FIFA
+        try:
+            card_image = await generate_fifa_card(player)
+            loading_msg = await ctx.send(
+                content=f"⚽ **{player.name}** — ¡{ctx.author.display_name} consiguió esta carta! Reacciona ⚽ para reclamarla.",
+                file=discord.File(card_image, filename="card.png")
+            )
+        except Exception as e:
+            # Fallback: enviar embed si falla la generación de imagen
+            print(f"Error generando imagen: {e}")
+            embed = self._build_card_embed(player, ctx.author)
+            embed.set_footer(text=f"¡{ctx.author.display_name} consiguió esta carta! Reacciona ⚽ para reclamarla.")
+            loading_msg = await ctx.send(embed=embed)
+        
         await loading_msg.add_reaction("⚽")
 
         # Guardar drop pendiente
@@ -90,8 +100,19 @@ class Cards(commands.Cog, name="⚽ Cartas"):
         
         player = resultados[0]  # Primer resultado
         tienes = await db.has_card(ctx.author.id, ctx.guild.id, player.id)
-        embed = self._build_card_embed(player, ctx.author, tienes=tienes)
-        await ctx.send(embed=embed)
+        
+        try:
+            card_image = await generate_fifa_card(player)
+            status = "✅ En tu colección" if tienes else "❌ No tienes"
+            await ctx.send(
+                content=f"🃏 **{player.name}** ({player.club}) — {status}",
+                file=discord.File(card_image, filename="card.png")
+            )
+        except Exception as e:
+            # Fallback: enviar embed si falla la generación de imagen
+            print(f"Error generando imagen: {e}")
+            embed = self._build_card_embed(player, ctx.author, tienes=tienes)
+            await ctx.send(embed=embed)
 
     # ─── LISTA DE JUGADORES ──────────────────────────────────────────────────
 
