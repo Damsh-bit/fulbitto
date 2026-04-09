@@ -5,8 +5,9 @@ import asyncio
 import database as db
 from data.players import roll_player, get_player, RARITIES, PLAYERS, search_players
 
-# Cooldown de roll en segundos (1 hora por defecto)
+# Cooldown de roll: 20 roleos por hora
 ROLL_COOLDOWN = 3600  # 1 hora
+ROLL_LIMIT    = 20    # máximo de roleos por hora
 CLAIM_WINDOW  = 30    # segundos para que alguien reclame un drop
 
 
@@ -20,7 +21,7 @@ class Cards(commands.Cog, name="⚽ Cartas"):
     # ─── ROLL ────────────────────────────────────────────────────────────────
 
     @commands.command(name="roll", aliases=["r", "tirar", "rolear"])
-    @commands.cooldown(1, ROLL_COOLDOWN, commands.BucketType.user)
+    @commands.cooldown(ROLL_LIMIT, ROLL_COOLDOWN, commands.BucketType.user)
     async def roll_card(self, ctx):
         """🎲 Rueda una carta aleatoria de fútbol."""
         await db.ensure_user(ctx.author.id, ctx.guild.id)
@@ -46,16 +47,6 @@ class Cards(commands.Cog, name="⚽ Cartas"):
             "expires": time.time() + CLAIM_WINDOW,
             "claimed": False,
         }
-
-        # Auto-claim después del cooldown si nadie reclamó
-        await asyncio.sleep(CLAIM_WINDOW)
-        drop = self.pending_drops.get(ctx.guild.id)
-        if drop and not drop["claimed"] and drop["message"].id == loading_msg.id:
-            # Auto-claim para el roller
-            await db.add_card(ctx.author.id, ctx.guild.id, player.id)
-            self.pending_drops.pop(ctx.guild.id, None)
-            embed.set_footer(text=f"✅ Reclamada automáticamente por {ctx.author.display_name}")
-            await loading_msg.edit(embed=embed)
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
