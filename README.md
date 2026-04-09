@@ -1,19 +1,19 @@
-# ? FutCard Bot — Bot de cartas de fútbol para Discord
+# ? FutCard Bot ï¿½ Bot de cartas de fï¿½tbol para Discord
 
-Bot tipo **Mudae** pero de fútbol. Rueda cartas de tus jugadores favoritos, colecciónalos, intercámbialos con amigos y compite en el ranking del servidor.
+Bot tipo **Mudae** pero de fï¿½tbol. Rueda cartas de tus jugadores favoritos, colecciï¿½nalos, intercï¿½mbialos con amigos y compite en el ranking del servidor.
 
 ---
 
-## ?? Descripción general
+## ?? Descripciï¿½n general
 
 FutCard Bot es un bot de Discord que permite:
-- rolear cartas de jugadores de fútbol
+- rolear cartas de jugadores de fï¿½tbol
 - reclamar cartas con reacciones
 - guardar colecciones y wishlist
 - regalar cartas e intercambiar con otros usuarios
-- ver rankings y estadísticas del servidor
+- ver rankings y estadï¿½sticas del servidor
 
-El bot está modularizado usando `cogs` para separar comandos, colección, social y administración.
+El bot estï¿½ modularizado usando `cogs` para separar comandos, colecciï¿½n, social y administraciï¿½n.
 
 ---
 
@@ -25,7 +25,7 @@ El bot está modularizado usando `cogs` para separar comandos, colección, social 
 
 ---
 
-## ?? Configuración del bot en Discord
+## ?? Configuraciï¿½n del bot en Discord
 
 1. Ve a https://discord.com/developers/applications
 2. Haz clic en **New Application** y ponle un nombre
@@ -51,7 +51,7 @@ cd futbol-bot
 pip install -r requirements.txt
 ```
 
-### Crear el archivo de configuración local
+### Crear el archivo de configuraciï¿½n local
 
 En Windows PowerShell:
 
@@ -91,12 +91,12 @@ futbol-bot/
 +-- .env                # Tu token (NO subir a git)
 +-- .env.example
 +-- data/
-¦   +-- __init__.py
-¦   +-- players.py      # Base de datos de jugadores y sistema gacha
+ï¿½   +-- __init__.py
+ï¿½   +-- players.py      # Base de datos de jugadores y sistema gacha
 +-- cogs/
     +-- __init__.py
     +-- cards.py        # Comandos de roll y cartas
-    +-- collection.py   # Colección, wishlist, perfil
+    +-- collection.py   # Colecciï¿½n, wishlist, perfil
     +-- social.py       # Regalar, intercambio, ranking, duelo
     +-- admin.py        # Comandos admin y ayuda
 ```
@@ -106,38 +106,38 @@ futbol-bot/
 ## ?? Comandos principales
 
 ### ? Ruleta
-| Comando | Descripción |
+| Comando | Descripciï¿½n |
 |---------|-------------|
-| `$roll` / `$r` | Tira una carta aleatoria (cooldown 1 hora) |
+| `$roll` / `$r` | Tira una carta aleatoria (20 por hora) |
 | `$carta <nombre>` | Ver detalles de un jugador |
 | `$lista [raridad]` | Lista los jugadores disponibles |
 | `$raridades` | Muestra probabilidades por raridad |
 
-### ?? Colección
-| Comando | Descripción |
+### ?? Colecciï¿½n
+| Comando | Descripciï¿½n |
 |---------|-------------|
-| `$coleccion [@usuario]` | Ver tu colección |
-| `$perfil [@usuario]` | Ver estadísticas de perfil |
-| `$desear <jugador>` | Añadir jugador a wishlist |
+| `$coleccion [@usuario]` | Ver tu colecciï¿½n |
+| `$perfil [@usuario]` | Ver estadï¿½sticas de perfil |
+| `$desear <jugador>` | Aï¿½adir jugador a wishlist |
 | `$wishlist [@usuario]` | Ver wishlist |
 | `$deseareliminar <jugador>` | Quitar jugador de wishlist |
 
 ### ?? Social
-| Comando | Descripción |
+| Comando | Descripciï¿½n |
 |---------|-------------|
 | `$regalar @usuario <jugador>` | Regalar carta |
 | `$intercambio @usuario <tuya> <suya>` | Proponer intercambio |
 | `$duelo <jugador1> vs <jugador2>` | Comparar dos jugadores |
 | `$top` | Ranking de coleccionistas |
-| `$toppersonajes` | Jugadores más rolados |
+| `$toppersonajes` | Jugadores mï¿½s rolados |
 
 ### ??? Admin (solo administradores)
-| Comando | Descripción |
+| Comando | Descripciï¿½n |
 |---------|-------------|
 | `$darCarta @usuario <jugador>` | Dar carta manualmente |
 | `$quitarCarta @usuario <jugador>` | Quitar una carta |
 | `$resetCooldown [@usuario]` | Resetear cooldown |
-| `$estadisticas` | Ver estadísticas del servidor |
+| `$estadisticas` | Ver estadï¿½sticas del servidor |
 
 ---
 
@@ -145,24 +145,24 @@ futbol-bot/
 
 | Raridad | Emoji | Probabilidad | Jugadores ejemplo |
 |---------|-------|-------------|-------------------|
-| ?? Legendario | ????? | 2% | Messi, Ronaldo, Mbappé, Haaland |
-| ?? Diamante | ???? | 6% | Vinícius, Bellingham, Salah, De Bruyne |
+| ?? Legendario | ????? | 2% | Messi, Ronaldo, Mbappï¿½, Haaland |
+| ?? Diamante | ???? | 6% | Vinï¿½cius, Bellingham, Salah, De Bruyne |
 | ?? Oro | ??? | 12% | Lewandowski, Rodri, Pedri, Kane |
 | ? Plata | ?? | 25% | Griezmann, Son, Valverde, Diaz |
 | ?? Bronce | ? | 55% | Rashford, Musiala, Wirtz, Gabriel |
 
 ---
 
-## ? Agregar más jugadores
+## ? Agregar mï¿½s jugadores
 
-Edita `data/players.py` y añade una entrada en el diccionario `PLAYERS`:
+Edita `data/players.py` y aï¿½ade una entrada en el diccionario `PLAYERS`:
 
 ```python
 "tu_jugador": Player(
     id="tu_jugador",
     name="Nombre Completo",
     club="Nombre del Club",
-    nation="País",
+    nation="Paï¿½s",
     position="DEL",       # DEL, EXT, MC, MCD, LAT, DEF, POR
     rarity="oro",         # bronce, plata, oro, diamante, legendario
     overall=85,
@@ -189,7 +189,7 @@ Edita `data/players.py` y añade una entrada en el diccionario `PLAYERS`:
 ## ?? Comprobaciones realizadas
 
 - El bot usa `DISCORD_TOKEN` desde `.env`.
-- La carpeta `cogs/` contiene los módulos del bot.
+- La carpeta `cogs/` contiene los mï¿½dulos del bot.
 - La carpeta `data/` contiene los jugadores y el sistema gacha.
 
 ---

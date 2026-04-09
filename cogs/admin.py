@@ -23,7 +23,7 @@ class Admin(commands.Cog, name="🛠️ Admin"):
         embed.set_thumbnail(url=self.bot.user.display_avatar.url)
 
         embed.add_field(name="⚽ Ruleta", value=(
-            "`$roll` / `$r` — Tirar una carta (cooldown 1h)\n"
+            "`$roll` / `$r` — Tirar una carta (20 por hora)\n"
             "`$carta <nombre>` — Ver detalles de un jugador\n"
             "`$lista [raridad]` — Ver todos los jugadores\n"
             "`$raridades` — Ver probabilidades por raridad"
